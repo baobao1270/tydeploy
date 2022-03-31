@@ -19,6 +19,15 @@ dest = "/srv"
 credential = "prod.deploy-ssh-key"
 # if set to true, will remove all files in destination directory before deploy
 clear = true
+# optional: commands to run before deployment
+script.pre = [
+    "free -h",
+    "ls /srv"
+]
+# optional: commands to run post deployment, will not run if error
+script.post = [
+    "systemctl restart nginx"
+]
 
 [[target]]
 name = "prod.cdn"
@@ -54,6 +63,8 @@ clear = true
 
 [[credential]]
 name = "prod.deploy-ssh-key"
+# use ssh-agent, now a gpg ssh private key in yubikey is supportted!
+agent = true
 private_key = """
 -----BEGIN RSA PRIVATE KEY-----
 ...
