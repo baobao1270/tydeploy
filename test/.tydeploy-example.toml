@@ -1,0 +1,66 @@
+[[profile]]
+name = "prod"
+description = "Production: EC2, CDN, Release Archive"
+targets = ["prod.ec2", "prod.cdn", "prod.release-archive"]
+
+[[profile]]
+name = "dev"
+description = "Development: Local Nginx"
+targets = ["dev.local"]
+
+[[target]]
+name = "prod.ec2"
+type = "ssh"
+source = "./example"
+host = "example.com"
+port = 22
+user = "root"
+dest = "/srv"
+credential = "prod.deploy-ssh-key"
+# if set to true, will remove all files in destination directory before deploy
+clear = true
+
+[[target]]
+name = "prod.cdn"
+type = "cos"
+source = "./example"
+bucket = "web-prod-114514"
+region = "ap-guangzhou"
+prefix = "/example"
+accelerate = true
+credential = "prod.cos-token"
+hash = ["md5", "sha1", "sha256", "sha512"]
+# if set to true, will remove all files with configured prefix before deploy
+clear = true
+
+[[target]]
+name = "prod.release-archive"
+type = "zip"
+source = "./example"
+prefix = "example/app"
+# use python time.strftime as of local time, don't forget me .zip extension name
+# https://docs.python.org/3/library/time.html#time.strftime
+archive = "/mnt/nas/release-archive/%Y-%m-%d.zip"
+# available values: DEFLATED, LZMA, STORED
+algorithm = "DEFLATED"
+
+[[target]]
+name = "dev.local"
+type = "filesystem"
+source = "./example"
+dest = "C:\\inetpub\\wwwroot"
+# if set to true, will remove all files in destination directory before deploy
+clear = true
+
+[[credential]]
+name = "prod.deploy-ssh-key"
+private_key = """
+-----BEGIN RSA PRIVATE KEY-----
+...
+-----END RSA PRIVATE KEY-----
+"""
+
+[[credential]]
+name = "prod.cos-token"
+secret_id = "AKxxxxxxxxxxxxxxxxxxxxxxxxx"
+secret_key = "xxxxxxxxxxxxxxxxxxxxxxxxxx"
