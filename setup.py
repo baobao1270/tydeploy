@@ -22,7 +22,7 @@ setup(
     install_requires=[req.strip() for req in open("requirements.txt", "r").read().strip().split("\n")],
     entry_points={
           'console_scripts': [
-              'tydeploy = tydeploy.__init__:main'
+              'tydeploy = tydeploy.tydeploy:main'
           ]
     }
 )
