@@ -19,7 +19,8 @@ available_hashes = {
 
 def py310_fix():
     if sys.version_info >= (3, 10):
-        import collections.abc, collections
+        import collections
+        import collections.abc
         collections.Iterable = collections.abc.Iterable
 
 
