@@ -4,6 +4,7 @@ import toml
 import argparse
 from typing import List, Dict, Any
 
+from . import __title__, __description__, __version__
 from .targets.ssh import deploy as ssh_deploy
 from .targets.zip import deploy as zip_deploy
 from .targets.cos import deploy as cos_deploy
@@ -18,9 +19,15 @@ handlers = {
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="tianyi's deploy tool")
+    parser = argparse.ArgumentParser(
+        description=f"{__title__} v{__version__}",
+        epilog=__description__,
+        add_help=False
+    )
     parser.add_argument("profile", metavar="<profile>", type=str, help="部署配置的名称")
     parser.add_argument("-f", "--force", action="store_true", help="不进行确认，强制部署")
+    parser.add_argument("-v", "--version", action="version", version=__version__, help="显示版本号")
+    parser.add_argument("-h", "--help", action="help", help="显示帮助信息")
     return parser.parse_args()
 
 

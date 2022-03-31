@@ -1,10 +1,11 @@
 from setuptools import setup, find_packages
+from tydeploy import __title__, __description__, __version__
 
 setup(
     name="tydeploy",
-    version="1.0.0rc1",
-    description="Tianyi's Deploy Tool",
-    long_description="Multiprocess deployer supports SSH (SFTP), Tencent COS, Zip and local FS (Chinese Only)",
+    version=__version__,
+    description=__title__,
+    long_description=__description__,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3 :: Only",
